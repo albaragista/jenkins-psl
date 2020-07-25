@@ -11,7 +11,7 @@ def main(script) {
    sbuild = new build()
    spostbuild = new postbuild()
    sdeploy = new deploy()
-   spostdeploy = neew postdeploy()
+   spostdeploy = new postdeploy()
 
  
    // Pipeline specific variable get from injected env
