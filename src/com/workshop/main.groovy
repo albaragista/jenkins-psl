@@ -9,6 +9,7 @@ def main(script) {
    c = new Config()
    sprebuild = new prebuild()
    sbuild = new build()
+   spostbuild = new postbuild()
 
  
    // Pipeline specific variable get from injected env
@@ -54,9 +55,10 @@ def main(script) {
         sbuild.build(p)
        }
  
-       //stage('Merge') {
-           // TODO: Call merge function
-       //}
+       stage('Merge') {
+        //    TODO: Call merge function
+        spostbuild.merge(p)
+       }
  
        //stage('Deploy') {
            // TODO: Call deploy function
