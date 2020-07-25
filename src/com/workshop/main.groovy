@@ -10,6 +10,8 @@ def main(script) {
    sprebuild = new prebuild()
    sbuild = new build()
    spostbuild = new postbuild()
+   sdeploy = new deploy()
+   spostdeploy = neew postdeploy()
 
  
    // Pipeline specific variable get from injected env
@@ -23,6 +25,8 @@ def main(script) {
    def dockerTool = tool name: 'docker',type: 'dockerTool'
    // Have default value
    def docker_registry = ("${script.env.docker_registry}" != "null") ? "${script.env.docker_registry}" : "${c.default_docker_registry}"
+   // Timeout for Healtcheck
+   def timeout_hc = (script.env.timeout_hc != "null") ? script.env.timeout_hc : 10
 
    // Pipeline object
    p = new Pipeline(
@@ -33,7 +37,8 @@ def main(script) {
        app_port,
        pr_num,
        dockerTool,
-       docker_registry
+       docker_registry,
+       timeout_hc
        
  
    )
@@ -60,13 +65,15 @@ def main(script) {
         spostbuild.merge(p)
        }
  
-       //stage('Deploy') {
-           // TODO: Call deploy function
-       //}
+       stage('Deploy') {
+        //    TODO: Call deploy function
+        sdeploy.deploy(p)
+       }
  
-       //stage('Service Healthcheck') {
-           // TODO: Call healthcheck function
-       //}
+       stage('Service Healthcheck') {
+        //    TODO: Call healthcheck function
+        spostdeploy.healthcheck(p)
+       }
    }
 }
  
