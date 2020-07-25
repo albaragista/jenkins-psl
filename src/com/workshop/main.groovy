@@ -75,6 +75,9 @@ def main(script) {
         spostdeploy.healthcheck(p)
        }
    }
+        stage('Delete Old Image') {
+            spostdeploy.deleteOldImage(p)
+        }
 }
  
 return this
